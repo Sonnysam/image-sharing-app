@@ -2,8 +2,10 @@ import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { logo } from "./assets/logo.png";
 import * as ImagePicker from "expo-image-picker";
+import * as Sharing from "expo-sharing"; 
 
 export default function App() {
+  const [selectedImage, setSelectedImage] = React.useState(null);
     let openImagePickerAsync = async () => {
       let permissionResult =
         await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -22,6 +24,14 @@ export default function App() {
     setSelectedImage({ localUri: pickerResult.uri });
   };
 
+  let openShareDialogAsync = async () => {
+    if (Platform.OS === "web") {
+      alert(`Uh oh, sharing isn't available on your platform`);
+      return;
+    }
+
+    await Sharing.shareAsync(selectedImage.localUri);
+  };
   if (selectedImage !== null) {
     return (
       <View style={styles.container}>
@@ -29,17 +39,19 @@ export default function App() {
           source={{ uri: selectedImage.localUri }}
           style={styles.thumbnail}
         />
+        <TouchableOpacity onPress={openShareDialogAsync} style={styles.button}>
+          <Text style={styles.buttonText}>Share this photo</Text>
+        </TouchableOpacity>
       </View>
     );
-  
-    };
+  }
   
   return (
     <View style={styles.container}>
       <Image
-        // source={{ uri: "https://i.imgur.com/TkIrScD.png" }}
-        source={require("./assets/logo.png")}
-        style={styles.logo}
+        source={{ uri: "https://i.imgur.com/TkIrScD.png" }}
+        // source={require("./assets/logo.png")}
+        // style={styles.logo}
       />
       ;
       <Text style={styles.instructions}>
