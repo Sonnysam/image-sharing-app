@@ -26,7 +26,7 @@ export default function App() {
 
   let openShareDialogAsync = async () => {
     if (Platform.OS === "web") {
-      alert(`Uh oh, sharing isn't available on your platform`);
+      // alert(`Uh oh, sharing isn't available on your platform`);
       return;
     }
 
@@ -49,9 +49,9 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: "https://i.imgur.com/TkIrScD.png" }}
-        // source={require("./assets/logo.png")}
-        // style={styles.logo}
+        // source={{ uri: "https://i.imgur.com/TkIrScD.png" }}
+        source={require("./assets/logo.png")}
+        style={styles.logo}
       />
       ;
       <Text style={styles.instructions}>
